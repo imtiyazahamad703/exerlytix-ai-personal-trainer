@@ -29,6 +29,7 @@ public class ExerciseLog {
     private int sitUp = 0;
     private int bicepCurl = 0;
     private int shoulderPress = 0;
+    private int shoulderRaise=0;
 
     private float duration = 0.0f;
     private float calories = 0.0f;

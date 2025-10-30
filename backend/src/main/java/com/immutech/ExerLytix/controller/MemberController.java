@@ -14,17 +14,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.immutech.ExerLytix.dto.LoginDto;
 import com.immutech.ExerLytix.entity.Member;
 import com.immutech.ExerLytix.repo.MemberRepository;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
@@ -48,7 +44,7 @@ public class MemberController {
 	private RegistrationService registrationService;
 
 	private final RestTemplate restTemplate = new RestTemplate();
-	
+
 	@GetMapping("/")
 	public String testingFunc() {
 		return "Welcome to ExerLytix, Testing Completed ....";
@@ -76,6 +72,8 @@ public class MemberController {
 				// 1️⃣ Fetch user_id from DB
 				Member member = repository.findByEmail(loginDto.getEmail());
 
+				System.out.println("Till here code is working");
+
 				if (member == null) {
 					throw new RuntimeException("User not found");
 				}
@@ -90,6 +88,10 @@ public class MemberController {
 				String pythonServerUrl = "http://localhost:5000/set_user";
 				Map<String, Integer> body = Map.of("user_id", userId);
 				restTemplate.postForObject(pythonServerUrl, body, String.class);
+				String base64Image = null;
+				if (member.getProfileImage() != null) {
+					base64Image = java.util.Base64.getEncoder().encodeToString(member.getProfileImage());
+				}
 
 				// ✅ Return all user details
 				return ResponseEntity.ok(Map.of(
@@ -97,7 +99,8 @@ public class MemberController {
 						"message", "Login successful",
 						"userId", userId,
 						"name", member.getName(),
-						"email", member.getEmail()
+						"email", member.getEmail(),
+						"profilePicture",base64Image
 				));
 				}
 		} catch (Exception e) {
@@ -125,7 +128,6 @@ public class MemberController {
 		return ResponseEntity.ok(Map.of("message", "Email verified. Proceed to change password."));
 	}
 
-
 	@PostMapping("/reset-password")
 	public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
 		String email = request.get("email");
@@ -149,7 +151,47 @@ public class MemberController {
 		return ResponseEntity.ok(Map.of("message", "Password updated successfully"));
 	}
 
+	@PostMapping("/update-profile")
+	public ResponseEntity<?> updateProfile(
+			@RequestParam int userId,
+			@RequestParam(required = false) String name,
+			@RequestParam(required = false) String password,
+			@RequestParam(required = false) MultipartFile profileImage) {
 
+		try {
+			Member member = repository.findById(userId)
+					.orElseThrow(() -> new RuntimeException("User not found"));
 
+			if (name != null && !name.isEmpty()) {
+				member.setName(name);
+			}
+			if (password != null && !password.isEmpty()) {
+				String encodedPassword = passwordEncoder.encode(password);
+				member.setPassword(encodedPassword);
+			}
+			if (profileImage != null && !profileImage.isEmpty()) {
+				member.setProfileImage(profileImage.getBytes());
+			}
+			Member updatedMember = repository.save(member);
+			String base64Image = null;
+			if (updatedMember.getProfileImage() != null) {
+				base64Image = java.util.Base64.getEncoder().encodeToString(updatedMember.getProfileImage());
+			}
+
+			return ResponseEntity.ok(Map.of(
+					"message", "Profile updated successfully",
+					"userId", updatedMember.getId(),
+					"name", updatedMember.getName(),
+					"email", updatedMember.getEmail(),
+					"password", "(hidden for security)",
+					"profileImage", base64Image
+			));
+
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(Map.of("error", e.getMessage()));
+		}
+	}
 
 }
+

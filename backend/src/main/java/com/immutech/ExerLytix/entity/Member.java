@@ -11,12 +11,14 @@ public class Member {
 	@Column(unique = true, nullable = false)
 	private String email;
 	private String password;
-	
+	@Lob
+	@Column(length = 100000)
+	private byte[] profileImage;
 	public Member() {
 		super();
 		// TODO Auto-generated constructor stub
-	}	
-	
+	}
+
 	public Member(int id, String name, String email, String password) {
 		super();
 		this.id = id;
@@ -48,6 +50,13 @@ public class Member {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public byte[] getProfileImage() {
+		return profileImage;
+	}
+	public void setProfileImage(byte[] profileImage) {
+		this.profileImage = profileImage;
 	}
 
 }

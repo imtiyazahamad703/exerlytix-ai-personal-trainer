@@ -1,13 +1,17 @@
 package com.immutech.ExerLytix.controller;
 
+import com.immutech.ExerLytix.dto.ExerciseLogDTO;
 import com.immutech.ExerLytix.dto.ExerciseRequest;
 import com.immutech.ExerLytix.entity.*;
 import com.immutech.ExerLytix.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -100,6 +104,34 @@ public class ExerciseController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+    @GetMapping("/logs/{userId}")
+    public ResponseEntity<Page<ExerciseLogDTO>> getLogsByUser(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "0") int page) {
+
+        int pageSize = 7;
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by("date").descending());
+
+        Page<ExerciseLog> logs = logRepo.findByUserId(userId, pageable);
+        List<ExerciseLogDTO> dtoList = new ArrayList<>();
+        for(ExerciseLog log: logs){
+            LocalDate date=log.getDate();
+            int pushUp=log.getPushUp();
+            int pullUp=log.getPullUp();
+            int squat=log.getSquat();
+            int walk=log.getWalk();
+            int sitUp=log.getSitUp();
+            int bicepCurl=log.getBicepCurl();
+            int shoulderPress=log.getShoulderPress();
+            int shoulderRaise=log.getShoulderRaise();
+
+        ExerciseLogDTO dto=new ExerciseLogDTO(date, pushUp, bicepCurl, shoulderPress,shoulderRaise, pullUp, squat, walk, sitUp);
+
+        dtoList.add(dto);
+        }
+        Page<ExerciseLogDTO> dtoPage=new PageImpl<>(dtoList, pageable, logs.getTotalElements());
+        return ResponseEntity.ok(dtoPage);
     }
 
 
