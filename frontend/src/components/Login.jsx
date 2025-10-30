@@ -74,129 +74,117 @@ const Login = () => {
   };
 
   return (
-    <>
-      <div className="flex min-h-screen bg-blue-200">
-        <div className="w-full bg-gray-200 md:w-1/2 lg:w-3/5 flex justify-center items-center">
-          <img
-            src={loginImg}
-            alt="Fitness"
-            className="w-[95%] mt-20 h-[87%] object-cover rounded-3xl"
+    <div className="flex min-h-screen items-center justify-center bg-white p-4">
+  <div className="w-full max-w-md bg-white rounded-2xl mt-15 p-8 shadow-2xl shadow-gray-300">
+    <h1 className="mb-6 text-3xl font-extrabold text-center text-purple-700">
+      Login Here
+    </h1>
+
+    {errorMessage && (
+      <p className="text-red-600 text-center font-semibold mb-4">
+        {errorMessage}
+      </p>
+    )}
+
+    <form onSubmit={handleLogin} className="space-y-4">
+      {/* Email Field */}
+      <div>
+        <label htmlFor="email" className="block text-left text-gray-700 mb-1">
+          Email
+        </label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          value={email}
+          className="w-full p-3 border border-gray-300 rounded-lg shadow-sm transition-transform duration-200 transform-gpu focus:-translate-y-0.5 focus:scale-[1.01] focus:ring-2 focus:ring-purple-300 focus:outline-none"
+          onChange={(event) => {
+            setEmail(event.target.value);
+            validateEmail(event.target.value);
+          }}
+        />
+        {isValid && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
+      </div>
+
+      {/* Password Field */}
+      <div>
+        <label htmlFor="password" className="block text-left text-gray-700 mb-1">
+          Password
+        </label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value={password}
+          className="w-full p-3 border border-gray-300 rounded-lg shadow-sm transition-transform duration-200 transform-gpu focus:-translate-y-0.5 focus:scale-[1.01] focus:ring-2 focus:ring-purple-300 focus:outline-none"
+          onChange={(event) => {
+            setPassword(event.target.value);
+            validatePassword(event.target.value);
+          }}
+        />
+        {isValid && (
+          <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+        )}
+      </div>
+
+      {/* Remember + Forgot Password */}
+      <div className="flex items-center justify-between mt-2">
+        <label htmlFor="checkBox" className="flex items-center text-gray-700">
+          <input
+            type="checkbox"
+            id="checkBox"
+            name="checkBox"
+            value={remember}
+            className="h-4 w-4 mr-2 accent-purple-700 border-gray-300 rounded focus:ring-2 focus:ring-purple-300"
+            onChange={(e) => setRemember(e.target.value)}
           />
+          Remember
+        </label>
+
+        <Link
+          to="/auth/forgot-password"
+          className="text-purple-700 hover:underline hover:opacity-90 transition"
+        >
+          Forgot Password?
+        </Link>
+      </div>
+
+      {/* Login Button */}
+      <div>
+        <button
+          type="submit"
+          className="w-full py-3 rounded-lg bg-purple-700 text-white font-extrabold shadow-md hover:shadow-lg hover:scale-[0.995] active:scale-[0.98] transition-all duration-150 focus:outline-none focus:ring-4 focus:ring-purple-200"
+        >
+          Login
+        </button>
+      </div>
+
+      {/* Divider */}
+      <div className="text-center relative my-2">
+        <div className="absolute inset-0 flex items-center" aria-hidden>
+          <div className="w-full border-t border-gray-200"></div>
         </div>
-
-        <div className="md:w-1/2 sm:w-full lg:w-2/5 flex justify-center items-center mt-[5%] ">
-          <div className="w-full bg-white m-3 sm:mx-10 flex flex-col rounded-xl  p-4 shadow-2xl shadow-gray-600">
-            <h1 className="my-6 text-3xl font-black text-blue-800 text-center">
-              Login Here
-            </h1>
-            {errorMessage && (
-              <p className="text-red-600 text-center font-semibold mb-4">
-                {errorMessage}
-              </p>
-            )}
-            <form onSubmit={handleLogin}>
-              <div className="">
-                <label
-                  htmlFor="email"
-                  className="block text-left text-gray-700"
-                >
-                  Email
-                </label>
-                <input
-                  type="text"
-                  id="email"
-                  name="email"
-                  value={email}
-                  className="w-full p-2 border mt-1 border-gray-300 rounded-md transition-all shadow-sm focus:scale-101 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                  onChange={(event) => {
-                    setEmail(event.target.value);
-                    validateEmail(event.target.value);
-                  }}
-                />
-                {isValid && (
-                  <p className="text-red-500 text-sm">{emailError}</p>
-                )}
-              </div>
-
-              <div className="mt-6">
-                <label
-                  htmlFor="password"
-                  className="block text-left text-gray-700"
-                >
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={password}
-                  className="w-full p-2 border my-1 border-gray-300 rounded-md transition-all shadow-sm focus:ring-2 focus:scale-101 focus:ring-indigo-500 focus:outline-none"
-                  onChange={(event) => {
-                    setPassword(event.target.value);
-                    validatePassword(event.target.value);
-                  }}
-                />
-                {isValid && (
-                  <p className="text-red-500 text-sm">{passwordError}</p>
-                )}
-              </div>
-
-              <div className="flex justify-between mt-5 mb-3">
-                <label htmlFor="checkBox" className="text-gray-700">
-                  <input
-                    type="checkbox"
-                    id="checkBox"
-                    name="checkBox"
-                    value={remember}
-                    className="text-left border text-3xl h-3 w-3 accent-indigo-500 border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none mr-1"
-                    onChange={(e) => setRemember(e.target.value)}
-                  />
-                  Remember
-                </label>
-                <Link
-                  to="/auth/forgot-password"
-                  className="hover:underline hover:text-indigo-800 text-indigo-700 transition duration-300"
-                >
-                  Forgot Password?
-                </Link>
-              </div>
-
-              <div>
-                <button
-                  type="submit"
-                  className="w-full my-7 border hover:bg-indigo-800 hover:inset-shadow-2xs transition duration-400 border-gray-300 p-2 rounded-lg bg-indigo-500 font-black text-white active:scale-95 active:bg-blue-900"
-                >
-                  Login
-                </button>
-              </div>
-
-              <div className="text-center">
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-300"></div>
-                  </div>
-
-                  <div className="relative flex justify-center">
-                    <span className="bg-white px-2 text-gray-500">Or</span>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <Link to="/auth/register">
-                  <button
-                    type="submit"
-                    className="w-full my-7 border hover:bg-indigo-800 hover:inset-shadow-2xs transition duration-400 border-gray-300 p-2 rounded-lg bg-green-400 font-black text-white active:scale-95 active:bg-blue-900"
-                  >
-                    Register
-                  </button>
-                </Link>
-              </div>
-            </form>
-          </div>
+        <div className="relative flex justify-center">
+          <span className="bg-white px-3 text-gray-500">Or</span>
         </div>
       </div>
-    </>
+
+      {/* Register Button */}
+      <div>
+        <Link to="/auth/register">
+          <button
+            type="submit"
+            className="w-full py-3 rounded-lg bg-white border border-purple-300 text-purple-700 font-extrabold shadow-sm hover:bg-purple-50 hover:scale-[0.995] active:scale-[0.98] transition-all duration-150"
+          >
+            Register
+          </button>
+        </Link>
+      </div>
+    </form>
+  </div>
+</div>
+
+
   );
 };
 

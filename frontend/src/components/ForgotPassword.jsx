@@ -58,66 +58,60 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="flex h-screen w-full items-center justify-center mt-10">
-      <div className="max-w-md rounded-3xl p-8 py-12 shadow-2xl shadow-gray-600">
-        <div className="mb-8 w-full text-center">
-          <h1 className="mb-1.5 text-center text-2xl font-bold">
-            Forgot Password
-          </h1>
-          <p className="text-sm text-gray-500">
-            Provide the email address associated with your account to recover
-            your password
-          </p>
-        </div>
-
-        <form className="space-y-5" onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="email" className="block">
-              Email
-            </label>
-            <input
-              type="email"
-              value={email}
-              name="email"
-              id="email"
-              className="w-full rounded-md border border-gray-500 p-2"
-              placeholder="xyz@gmail.com"
-              onChange={(event) => setEmail(event.target.value)}
-              onBlur={(event) => validateEmail(event.target.value)}
-            />
-            {emailError && (
-              <p className="text-red-500 text-sm">{emailError}</p>
-            )}
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full rounded-lg bg-blue-600 p-3 font-bold text-white transition-all duration-200 hover:bg-blue-800 disabled:bg-gray-400"
-            >
-              {loading ? "Verifying..." : "Reset Password"}
-            </button>
-          </div>
-        </form>
-
-        {message && (
-          // Use different colors for success vs. error messages
-          <p className={`mt-4 text-center text-sm ${message.includes("Redirecting") ? "text-green-600" : "text-red-600"}`}>
-            {message}
-          </p>
-        )}
-
-        <div className="mt-6 text-center">
-          <Link
-            to="/auth/login"
-            className="text-indigo-600 hover:underline text-sm"
-          >
-            Back to Login
-          </Link>
-        </div>
-      </div>
+   <div className="flex min-h-screen items-center justify-center bg-white p-4">
+  <div className="w-full max-w-md rounded-3xl bg-white p-8 py-12 shadow-2xl shadow-gray-300 border border-gray-100">
+    <div className="mb-8 w-full text-center">
+      <h1 className="mb-1.5 text-2xl font-bold text-gray-900">Forgot Password</h1>
+      <p className="text-sm text-gray-500">
+        Provide the email address associated with your account to recover your password
+      </p>
     </div>
+
+    <form className="space-y-5" onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="email" className="block text-gray-700">Email</label>
+        <input
+          type="email"
+          value={email}
+          name="email"
+          id="email"
+          className="w-full rounded-lg border border-gray-300 p-3 shadow-sm transition-transform duration-150 transform-gpu focus:-translate-y-0.5 focus:scale-[1.01] focus:ring-2 focus:ring-[var(--color-purple-700)] focus:outline-none"
+          placeholder="xyz@gmail.com"
+          onChange={(event) => setEmail(event.target.value)}
+          onBlur={(event) => validateEmail(event.target.value)}
+        />
+        {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full rounded-lg bg-[var(--color-purple-700)] p-3 font-semibold text-white transition-all duration-200 hover:opacity-95 disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          {loading ? "Verifying..." : "Reset Password"}
+        </button>
+      </div>
+    </form>
+
+    {message && (
+      <p
+        className={`mt-4 text-center text-sm ${
+          message.includes("Redirecting") ? "text-green-600" : "text-red-600"
+        }`}
+      >
+        {message}
+      </p>
+    )}
+
+    <div className="mt-6 text-center">
+      <Link to="/auth/login" className="text-[var(--color-purple-700)] hover:underline text-sm font-medium">
+        Back to Login
+      </Link>
+    </div>
+  </div>
+</div>
+
   );
 };
 

@@ -73,7 +73,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="flex h-screen w-full items-center justify-center mt-10">
+  <div className="flex h-screen w-full items-center justify-center mt-10">
       <div className="max-w-md rounded-3xl p-8 py-12 shadow-2xl shadow-gray-600">
         <div className="mb-8 w-full text-center">
           <h1 className="mb-1.5 text-center text-2xl font-bold">
@@ -148,6 +148,7 @@ const ChangePassword = () => {
         </div>
       </div>
     </div>
+
   );
 };
 
