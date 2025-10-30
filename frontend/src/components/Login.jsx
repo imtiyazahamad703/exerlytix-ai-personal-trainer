@@ -12,7 +12,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState(""); // to show login error
 
   // ✅ Auth context hook
-  const {updateProfile} = useAuth();
+  const {profile,updateProfile} = useAuth();
 
   const [isValid, setIsValid] = useState(false);
   const [emailError, setEmailError] = useState("");
@@ -56,6 +56,7 @@ const Login = () => {
           email: response.data.email,
           profilePicture: response.data.profilePicture,
         });
+        
         
 
         // Login successful

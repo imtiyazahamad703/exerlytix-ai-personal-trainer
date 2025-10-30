@@ -6,6 +6,7 @@
   import { useAuth } from "../context/AuthContext";
   import workoutData from "../data/workoutData.json";
 import ExerciseLogTable from "../components/ExerciseLogTable";
+import GreetingHeader from "../components/GreetingHeader";
 
 
   const Dashboard = () => {
@@ -198,6 +199,11 @@ import ExerciseLogTable from "../components/ExerciseLogTable";
                 </p>
               </div>
             </div>
+
+            
+        <div className="flex justify-center mb-8">
+        <GreetingHeader />
+      </div>
 
             {/* Start Exercise Section */}
             <h2 className="text-3xl font-bold mb-6 text-purple-700">
