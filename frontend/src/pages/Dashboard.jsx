@@ -8,6 +8,7 @@ import workoutData from "../data/workoutData.json";
 import ExerciseLogTable from "../components/ExerciseLogTable";
 import GreetingHeader from "../components/GreetingHeader";
 import Sidebar from "../components/Sidebar";
+import UpdateProfile from "../components/UpdateProfile";
 
 const Dashboard = () => {
   const { profile } = useAuth();
@@ -268,6 +269,16 @@ const Dashboard = () => {
             <div className="text-center text-purple-700 font-semibold text-2xl mt-10">
               🚴 Activity Logs Coming Soon...
             </div>
+          )}
+          {activeTab === "updateProfile" && (
+            <>
+              <div className="flex justify-center mb-8">
+                <GreetingHeader />
+              </div>
+              <div className="bg-white border border-purple-200 shadow-lg rounded-2xl p-8 max-w-2xl mx-auto">
+                <UpdateProfile />
+              </div>
+            </>
           )}
 
           {activeTab === "analytics" && (

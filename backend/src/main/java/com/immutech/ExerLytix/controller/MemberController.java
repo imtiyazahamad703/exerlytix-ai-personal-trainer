@@ -151,7 +151,7 @@ public class MemberController {
 		return ResponseEntity.ok(Map.of("message", "Password updated successfully"));
 	}
 
-	@PostMapping("/update-profile")
+	@PutMapping("/update-profile")
 	public ResponseEntity<?> updateProfile(
 			@RequestParam int userId,
 			@RequestParam(required = false) String name,
