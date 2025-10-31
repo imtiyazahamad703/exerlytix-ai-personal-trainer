@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import About from "./pages/About";
 import Nutrition from "./pages/Nutrition";
 import Contact from "./pages/Contact";
+import "./App.css";
 
 function App() {
   return (
