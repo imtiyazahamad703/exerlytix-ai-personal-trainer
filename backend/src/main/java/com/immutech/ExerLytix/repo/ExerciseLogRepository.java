@@ -9,11 +9,14 @@ import org.springframework.stereotype.Repository;
 
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface ExerciseLogRepository extends JpaRepository<ExerciseLog, Long> {
     Optional<ExerciseLog> findByUserAndDate(Member user, LocalDate date);
     boolean existsByUserAndDate(Member user, LocalDate date);
+    List<ExerciseLog> findByUserId(Integer userId);
     Page<ExerciseLog> findByUserId(Long userId, Pageable pageable);
+
 }

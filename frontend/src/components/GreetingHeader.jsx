@@ -12,14 +12,13 @@ const GreetingHeader = () => {
     else setGreeting("Good Evening");
   }, []);
 
-  // ✅ If profile picture available
   const renderProfileImage = () => {
     if (profile?.profilePicture && profile.profilePicture !== "null") {
       return (
         <img
           src={`data:image/jpeg;base64,${profile.profilePicture}`}
           alt="Profile"
-          className="w-16 h-16 rounded-full object-cover border-2 border-purple-500 shadow-md"
+          className="w-35 h-35 rounded-full object-cover border-4 border-purple-500 shadow-xl"
         />
       );
     } else {
@@ -27,7 +26,7 @@ const GreetingHeader = () => {
         ? profile.name.charAt(0).toUpperCase()
         : "?";
       return (
-        <div className="w-16 h-16 rounded-full bg-purple-600 flex items-center justify-center text-white text-2xl font-bold border-2 border-purple-300 shadow-md">
+        <div className="w-35 h-35 rounded-full bg-purple-600 flex items-center justify-center text-white text-4xl font-bold border-4 border-purple-300 shadow-xl">
           {initial}
         </div>
       );
@@ -35,26 +34,26 @@ const GreetingHeader = () => {
   };
 
   return (
-    <div className="flex items-center justify-between w-full bg-gradient-to-r from-purple-100 to-white border border-purple-200 rounded-2xl shadow-lg p-5 hover:shadow-xl transition-all">
+    <div className="flex items-center justify-between w-full bg-gradient-to-r from-purple-100 to-white border border-purple-200 rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all duration-300 ease-in-out h-[160px]">
       
       {/* 👈 Left Side: Greeting & Name */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-800">
+        <h2 className="text-4xl font-semibold text-gray-800">
           {greeting},{" "}
           <span className="text-purple-700">
             {profile?.name ? profile.name.split(" ")[0] : "User"} 👋
           </span>
         </h2>
-        <p className="text-gray-600 mt-1 text-sm">
+        <p className="text-gray-600 mt-3 text-sm">
           Welcome back! Ready for your next workout?
         </p>
       </div>
 
       {/* 👉 Right Side: Profile + Email */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-6">
         {renderProfileImage()}
-        <div className="flex flex-col text-right">
-          <span className="text-lg font-semibold text-gray-800">
+        <div className="flex flex-col text-right mt-2">
+          <span className="text-2xl font-semibold text-gray-800">
             {profile?.name}
           </span>
           <span className="text-sm text-gray-500">{profile?.email}</span>

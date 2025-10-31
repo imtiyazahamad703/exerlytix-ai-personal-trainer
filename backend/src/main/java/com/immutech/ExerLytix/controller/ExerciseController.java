@@ -4,10 +4,13 @@ import com.immutech.ExerLytix.dto.ExerciseLogDTO;
 import com.immutech.ExerLytix.dto.ExerciseRequest;
 import com.immutech.ExerLytix.entity.*;
 import com.immutech.ExerLytix.repo.*;
+import com.immutech.ExerLytix.services.ExerciseDataExportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.immutech.ExerLytix.services.ExerciseDataExportService;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,6 +26,9 @@ public class ExerciseController {
 
     @Autowired
     private MemberRepository userRepo;
+    @Autowired
+    private ExerciseDataExportService exportService;
+
 
     // 🧩 API endpoint to update exercise
     @PostMapping("/exercise/update")
@@ -160,4 +166,21 @@ public class ExerciseController {
         if (log.getShoulderPress() > 0) total++;
         return total;
     }
+    @GetMapping("/export/json/{userId}")
+    public ResponseEntity<?> exportUserJson(@PathVariable Integer userId) {
+        try {
+            String msg = exportService.exportAllLogsToFrontendJson(userId);
+            return ResponseEntity.ok().body(new ApiResponse(true, msg));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ApiResponse(false, e.getMessage()));
+        }
+    }
+
+    // small response wrapper
+    private static class ApiResponse {
+        public boolean success;
+        public String message;
+        public ApiResponse(boolean s, String m) { success = s; message = m; }
+    }
+
 }

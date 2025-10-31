@@ -56,6 +56,7 @@ const Login = () => {
           email: response.data.email,
           profilePicture: response.data.profilePicture,
         });
+        console.log("✅ User details updated:", profile);
         
         
 

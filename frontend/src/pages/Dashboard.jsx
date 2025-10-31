@@ -2,49 +2,48 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import LineChart from "../Charts/LineChart";
 import DoughnutChart from "../Charts/DoughnutChart";
-import WorkoutHistoryTable from "../components/WorkoutHistoryTable";
 import { useAuth } from "../context/AuthContext";
 import workoutData from "../data/workoutData.json";
 import ExerciseLogTable from "../components/ExerciseLogTable";
 import GreetingHeader from "../components/GreetingHeader";
 import Sidebar from "../components/Sidebar";
 import UpdateProfile from "../components/UpdateProfile";
+import axios from "axios";
+
 
 const Dashboard = () => {
   const { profile } = useAuth();
   const [userLog, setUserLog] = useState({});
   const [output, setOutput] = useState("");
-  const [activeTab, setActiveTab] = useState("dashboard"); // ✅ tab control
+  const [activeTab, setActiveTab] = useState("dashboard");
 
-  // --- same logic as before ---
+  // --- Data preparation ---
   const sortedWorkouts = [...workoutData].sort(
-    (a, b) => new Date(a.date) - new Date(b.date)
-  );
-  const last7 = sortedWorkouts.slice(Math.max(sortedWorkouts.length - 7, 0));
-  const last7Labels = last7.map((w) => w.date);
-  const last7Totals = last7.map((w) =>
-    Object.keys(w).reduce((sum, k) => {
-      if (k === "date") return sum;
-      const n = Number(w[k]) || 0;
-      return sum + n;
-    }, 0)
+    (a, b) => new Date(a.date.join("-")) - new Date(b.date.join("-"))
   );
 
-  const activityLineData = {
+  const last7 = sortedWorkouts.slice(Math.max(sortedWorkouts.length - 7, 0));
+  const last7Labels = last7.map((w) => w.date.join("-"));
+
+  // 🟠 Line Chart: Calories Burned (replacing Total Activity)
+  const last7Calories = last7.map((w) => w.calories || 0);
+  const caloriesLineData = {
     labels: last7Labels,
     datasets: [
       {
-        label: "Total Activity (reps / steps)",
-        data: last7Totals,
-        borderColor: "#7e22ce",
-        backgroundColor: "rgba(126,34,206,0.12)",
+        label: "Calories Burned (kcal)",
+        data: last7Calories,
+        borderColor: "#ef4444",
+        backgroundColor: "rgba(239,68,68,0.15)",
         tension: 0.35,
-        pointBackgroundColor: "#9333ea",
-        pointBorderColor: "#7e22ce",
+        pointBackgroundColor: "#ef4444",
+        pointBorderColor: "#b91c1c",
+        fill: true,
       },
     ],
   };
 
+  // 🍩 Doughnut Chart: Exercise Distribution (includes Walk)
   const exerciseKeys = [
     "pushUp",
     "pullUp",
@@ -53,6 +52,7 @@ const Dashboard = () => {
     "bicepCurl",
     "shoulderRaise",
     "shoulderPress",
+    "walk", // ✅ Added walk
   ];
 
   const aggregated = exerciseKeys.map((key) =>
@@ -68,19 +68,21 @@ const Dashboard = () => {
       "Bicep Curl",
       "Shoulder Raise",
       "Shoulder Press",
+      "Walk", // ✅ Added walk label
     ],
     datasets: [
       {
         label: "Total per Exercise",
         data: aggregated,
         backgroundColor: [
-          "#7e22ce",
-          "#22c55e",
-          "#f97316",
-          "#ef4444",
-          "#a78bfa",
-          "#06b6d4",
-          "#f59e0b",
+          "#7e22ce", // Push-Up
+          "#22c55e", // Pull-Up
+          "#f97316", // Squat
+          "#ef4444", // Sit-Up
+          "#a78bfa", // Bicep Curl
+          "#06b6d4", // Shoulder Raise
+          "#f59e0b", // Shoulder Press
+          "#3b82f6", // ✅ Walk (new blue color)
         ],
         borderColor: "#ffffff",
         borderWidth: 2,
@@ -89,9 +91,9 @@ const Dashboard = () => {
     ],
   };
 
-  const formatDuration = (minutes) => {
-    const hrs = Math.floor(minutes / 60);
-    const mins = Math.floor(minutes % 60);
+  const formatDuration = (seconds) => {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
     return hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
   };
 
@@ -121,6 +123,17 @@ const Dashboard = () => {
     }
   };
 
+    const exportJsonData = async (userId) => {
+    try {
+      const response = await axios.get(`http://localhost:8081/api/export/json/${userId}`);
+
+      console.log("✅ JSON Export Success:", response.data.message);
+    } catch (error) {
+      console.error("❌ Error exporting JSON:", error);
+    }
+  };
+
+
   const stopPythonScript = async () => {
     try {
       const response = await fetch("http://localhost:5000/stop-python", {
@@ -130,6 +143,7 @@ const Dashboard = () => {
       setOutput(data.message || data.error);
       if (data.message && !data.error) {
         fetchUserLog(profile.userId);
+        exportJsonData(profile.userId);
       }
     } catch (error) {
       setOutput("Error stopping script");
@@ -139,6 +153,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (profile?.userId) {
       fetchUserLog(profile.userId);
+      exportJsonData(profile.userId);
     }
   }, []);
 
@@ -169,11 +184,12 @@ const Dashboard = () => {
         <div className="flex-1 mt-24 px-8 pb-28 overflow-y-auto">
           {activeTab === "dashboard" && (
             <>
-              {/* ✅ Your Original Dashboard Content */}
+              {/* Greeting */}
               <div className="flex justify-center mb-8">
                 <GreetingHeader />
               </div>
 
+              {/* Summary Cards */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                 <div className="bg-white border border-purple-200 shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
                   <h3 className="text-lg font-semibold text-purple-700 mb-2">
@@ -201,6 +217,7 @@ const Dashboard = () => {
                 </div>
               </div>
 
+              {/* Start Exercise */}
               <h2 className="text-3xl font-bold mb-6 text-purple-700">
                 Start Exercise
               </h2>
@@ -223,6 +240,7 @@ const Dashboard = () => {
                 ))}
               </div>
 
+              {/* Script Output */}
               <div className="mt-10 bg-white border border-purple-200 rounded-2xl shadow-lg p-6">
                 <h3 className="text-lg font-semibold text-purple-700 mb-3">
                   Script Output
@@ -238,18 +256,21 @@ const Dashboard = () => {
                 </button>
               </div>
 
+              {/* Performance Charts */}
               <div className="mt-10">
                 <h2 className="text-3xl font-bold mb-6 text-purple-700">
                   Performance Charts
                 </h2>
                 <div className="flex flex-col md:flex-row gap-6">
+                  {/* 🟠 Line Chart: Calories Burned */}
                   <div className="flex-1 bg-white border border-purple-200 shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
                     <LineChart
-                      data={activityLineData}
-                      title="Total Activity (Last 7 days)"
+                      data={caloriesLineData}
+                      title="Calories Burned (Last 7 days)"
                     />
                   </div>
 
+                  {/* 🍩 Doughnut Chart: Exercise Distribution */}
                   <div className="flex-1 bg-white border border-purple-200 shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
                     <DoughnutChart
                       data={exerciseDistributionFromJSON}
@@ -259,17 +280,20 @@ const Dashboard = () => {
                 </div>
               </div>
 
+              {/* Exercise Logs */}
               <div className="mt-10">
                 <ExerciseLogTable userId={profile.userId} />
               </div>
             </>
           )}
 
+          {/* Other Tabs */}
           {activeTab === "activity" && (
             <div className="text-center text-purple-700 font-semibold text-2xl mt-10">
               🚴 Activity Logs Coming Soon...
             </div>
           )}
+
           {activeTab === "updateProfile" && (
             <>
               <div className="flex justify-center mb-8">

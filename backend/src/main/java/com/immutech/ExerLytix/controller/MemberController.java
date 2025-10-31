@@ -100,8 +100,7 @@ public class MemberController {
 						"userId", userId,
 						"name", member.getName(),
 						"email", member.getEmail(),
-						"profilePicture",base64Image
-				));
+						"profilePicture", base64Image != null ? base64Image : ""				));
 				}
 		} catch (Exception e) {
 			e.printStackTrace();

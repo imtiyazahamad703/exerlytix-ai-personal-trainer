@@ -6,10 +6,11 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExerciseLogDTO {
+public class ExtractLogDTO {
     private LocalDate date;
     private int pushUp;
     private int bicepCurl;
@@ -19,9 +20,5 @@ public class ExerciseLogDTO {
     private int squat;
     private int walk;
     private int sitUp;
-
-
-
-
+    private float calories;
 }
-
