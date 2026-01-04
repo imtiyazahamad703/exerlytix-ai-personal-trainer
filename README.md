@@ -1,63 +1,186 @@
-# ExerLytix
-An AI-powered fitness platform providing personalized workout & diet recommendations based on user weight, goals, and preferences.
-![image](https://github.com/user-attachments/assets/2963e810-21da-4e2c-9a92-e9e1ba2c059d)
-![image](https://github.com/user-attachments/assets/2cd9260e-f0d1-4d49-a359-24a7db891fbd)
+# 🏋️‍♂️ ExerLytix – AI-Powered Fitness Analytics Platform
 
-![image](https://github.com/user-attachments/assets/de9446a9-692c-436f-b03f-e83b8a721510)
-![image](https://github.com/user-attachments/assets/1c3ee861-9a92-4c94-a355-3fd5ba441302)
+ExerLytix is a full-stack fitness analytics web application that automatically tracks user exercises, calculates calories, and visualizes real-time workout insights.  
+The system removes manual data entry by capturing real exercise data and presenting meaningful analytics through an interactive dashboard.
 
-![image](https://github.com/user-attachments/assets/477d9eae-31ab-4683-be5d-c6f5dd9862e1)
-![image](https://github.com/user-attachments/assets/f1eb88be-7aee-45ee-9558-e4d1d2912b5b)
+---
 
-# Project Setupt
-  ## Clone project : 
-      using git clone 'url'
-  ## Frontend
-  File -> open folder -> open till frontend
-  **on vs code terminal :** 
-  npm install
-  npm install react react-dom react-router-dom
-  npm install react-router-dom
-  npm install recharts
+## 🚀 Key Features
+- JWT-based user authentication
+- Automatic exercise tracking using webcam (Computer Vision)
+- Real-time reps & calorie calculation
+- Interactive dashboard with charts & analytics
+- Daily & historical workout tracking
+- BMI calculator
+- AI-assisted meal planner
+- MySQL-based persistent storage
+- Optimized backend with batching & in-memory accumulation
 
-  npm install -D tailwindcss postcss autoprefixer
-  npm install axios
-  npm install react-hook-form
-  npm install react-icons
+---
 
-  ## Backend
-    jdk -21
-    mysql db
-    Python 3.9+
-   **Eclipse** : 
-      file -> import -> import Existing maven project -> select till backend folder.
-    Update Maven project :
-      right click project -> maven -> update project -> select all -> ok 
-    
-  ### application.properties
-    change username 
-    change password
-  ### Core Python Packages to run MediaPipe model using opencv
-    pip install opencv-python
-    pip install mediapipe
-    pip install numpy
-    pip install pandas
-    pip install Flask
-    pip install flask-cors
+## 🖼️ Screenshots
 
-  ## Frontend
-  ### NPM Packages to Install
-    npm install
-    npm install react react-dom
-    npm install react-router-dom
-    npm install react-icons
-    npm install axios
+### Home Screen
+<img width="1920" height="1080" alt="Screenshot (751)" src="https://github.com/user-attachments/assets/67dc688d-9808-44a0-b5e0-76e44a875a9b" />
 
-# How to run Project :
-  **1st** run backend Java : ExerLytixApplication.java (inside :com.immutech.ExerLytix;) as application
-  **2nd** run backedn Python: server.py file using command--> python server.py
-  **2nd** frontend terminal : npm run dev
-  
-    
-      
-      
+### Login & Registration
+<img width="1920" height="1080" alt="Screenshot (754)" src="https://github.com/user-attachments/assets/06dc05fd-1636-4ec2-ab9c-9a10a9c1540e" />
+
+<img width="1920" height="1080" alt="Screenshot (760)" src="https://github.com/user-attachments/assets/b371d4a7-f137-4b3c-b8d3-a61279df547c" />
+
+<img width="1920" height="1080" alt="Screenshot (756)" src="https://github.com/user-attachments/assets/5b11b600-4d35-410d-bdc4-14fd0764be78" />
+
+<img width="1920" height="1080" alt="Screenshot (758)" src="https://github.com/user-attachments/assets/ebbda52e-147a-4170-add2-b36ee5f14b7a" />
+
+
+
+### Main Dashboard (Live Calories & Reps)
+<img width="1920" height="1080" alt="Screenshot (763)" src="https://github.com/user-attachments/assets/09a0bffd-9fab-495c-bd26-fc5386ce578a" />
+
+### Exercise Reps Counter Model Screen
+<!-- SCREENSHOT HERE -->
+
+### Charts & Analytics
+<img width="1920" height="1080" alt="Screenshot (764)" src="https://github.com/user-attachments/assets/66a9139a-4db5-445c-9b25-d1cc795d3d96" />
+
+<img width="1920" height="1080" alt="Screenshot (765)" src="https://github.com/user-attachments/assets/7efbb9c8-73f5-46d2-944d-0baf4d0cdb4d" />
+
+
+### BMI & Meal Planner
+
+<img width="1920" height="1080" alt="Screenshot (767)" src="https://github.com/user-attachments/assets/27a7230d-e254-4bd1-81da-12e8db6fe2d7" />
+
+<img width="1920" height="1080" alt="Screenshot (768)" src="https://github.com/user-attachments/assets/2cdb7ba4-5754-4006-876b-94f812546189" />
+
+<img width="1920" height="1080" alt="Screenshot (769)" src="https://github.com/user-attachments/assets/09b75511-66cf-4885-b937-b65153ce9327" />
+
+---
+
+## 🏗️ System Architecture
+
+The project is divided into three main components:
+
+### Frontend (React.js)
+- User interface
+- Live counters & charts
+- Form handling & validations
+
+### Backend (Spring Boot + MySQL)
+- Authentication & authorization (JWT)
+- REST APIs
+- Database operations
+- Analytics & aggregation logic
+
+### Exercise Engine (Python + MediaPipe)
+- Webcam access
+- Pose detection
+- Repetition counting
+- Calorie estimation
+
+All components communicate via REST APIs.
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- React.js
+- JavaScript
+- Tailwind CSS
+- Axios
+- React Router
+- Recharts
+- React Hook Form
+- React Icons
+
+### Backend
+- Java 21
+- Spring Boot
+- Spring Security + JWT
+- Spring Data JPA
+- MySQL
+- Maven
+
+### Python / AI
+- Python
+- OpenCV
+- MediaPipe
+- NumPy
+- Pandas
+- Flask
+- Flask-CORS
+
+---
+
+## Project Structure
+ExerLytix/
+├── frontend/
+├── backend/
+├── python-server/
+└── README.md
+
+
+---
+
+## ⚙️ Project Setup
+
+### Clone the Repository
+```bash
+git clone https://github.com/imtiyazahamad703/exerlytix-ai-personal-trainer.git
+
+
+### Frontend Setup
+cd frontend
+npm install
+npm install react react-dom
+npm install react-router-dom
+npm install recharts
+npm install axios
+npm install react-hook-form
+npm install react-icons
+npm install -D tailwindcss postcss autoprefixer
+
+### Backend Setup (Spring Boot)
+**Prerequisites**:
+JDK 21
+MySQL Database
+Eclipse / IntelliJ IDEA
+### Steps:
+Open Eclipse
+File → Import → Existing Maven Project
+Select the backend folder
+Right click project → Maven → Update Project → Select All → OK
+
+**Update application.properties**:
+spring.datasource.username=YOUR_DB_USERNAME
+spring.datasource.password=YOUR_DB_PASSWORD
+
+### Python Server Setup
+**Prerequisites**
+**Install Required Packages**:
+Python
+pip install opencv-python
+pip install mediapipe
+pip install numpy
+pip install pandas
+pip install Flask
+pip install flask-cors
+
+### How to Run the Project:
+**Step 1: Run Spring Boot Backend**
+Run ExerLytixApplication.java
+Package: com.immutech.ExerLytix
+
+**Step 2: Run Python Server**
+python server.py
+
+**Step 3: Run Frontend**
+cd frontend
+npm run dev
+
+---
+**Author**
+Imtiyaz Ahamad
+Full Stack Developer
+📍 India
+📧 imtiyazahamad703@gmail.com
